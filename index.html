@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>家計簿アプリ</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+
+  <main class="container">
+
+    <h1>💰 家計簿アプリ</h1>
+
+    <!-- 登録フォーム -->
+    <section class="card">
+      <h2>収支登録</h2>
+
+      <form id="moneyForm">
+
+        <div class="form-group">
+          <label for="date">日付</label>
+          <input type="date" id="date" required>
+        </div>
+
+        <div class="form-group">
+          <label for="title">内容</label>
+          <input type="text" id="title" list="titleList" placeholder="内容を入力" required>
+          <datalist id="titleList"></datalist>
+        </div>
+
+        <div class="form-group">
+          <label for="category">カテゴリー</label>
+          <select id="category">
+            <option value="食費">食費</option>
+            <option value="日用品">日用品</option>
+            <option value="交通費">交通費</option>
+            <option value="趣味">趣味</option>
+            <option value="給料">給料</option>
+            <option value="その他">その他</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="type">種類</label>
+          <select id="type">
+            <option value="income">収入</option>
+            <option value="expense">支出</option>
+          </select>
+        </div>
+
+        <div class="form-group amount-group">
+          <label for="amount">金額</label>
+          <input type="number" id="amount" min="1" placeholder="金額" required>
+        </div>
+
+        <button type="submit">登録</button>
+
+      </form>
+    </section>
+
+    <!-- 合計 -->
+     
+    <section class="card summary">
+      <h2>収支</h2>
+      <div class="summary-item">
+        <span>収入</span>
+        <span id="totalIncome">¥0</span>
+      </div>
+
+      <div class="summary-item">
+        <span>支出</span>
+        <span id="totalExpense">¥0</span>
+      </div>
+
+      <div class="summary-item balance">
+        <span>収支</span>
+        <span id="balance">¥0</span>
+      </div>
+
+    </section>
+<!-- モーダル -->
+  <div id="editModal" class="modal">
+  <div class="modal-content">
+    <h2>編集</h2>
+
+    <label for="editDate">日付</label>
+    <input type="date" id="editDate">
+    <label for="editTitle">内容</label>
+    <input type="text" id="editTitle" placeholder="内容を入力" required>
+    <label for="editCategory">カテゴリー</label>
+    <select id="editCategory">
+      <option value="食費">食費</option>
+      <option value="日用品">日用品</option>
+      <option value="交通費">交通費</option>
+      <option value="趣味">趣味</option>
+      <option value="給料">給料</option>
+      <option value="その他">その他</option>
+    </select>
+    <label for="editAmount">金額</label>
+    <input type="number" id="editAmount" placeholder="金額を入力" required>
+
+    <div class="modal-buttons">
+      <button id="closeModal">閉じる</button>
+      <button id="updateButton">更新</button>
+    </div>
+  </div>
+</div>
+    <!-- 一覧 -->
+    <section class="card">
+      <div class="history-wrapper">
+        <h2>収支履歴</h2>
+        <label for="year">年月検索</label>
+        <input type="text" id="year" placeholder="年を入力">
+        <select class="transaction-calendar">
+          <option value="all">すべて</option>
+          <option value="1">1月</option>
+          <option value="2">2月</option>
+          <option value="3">3月</option>
+          <option value="4">4月</option>
+          <option value="5">5月</option>
+          <option value="6">6月</option>
+          <option value="7">7月</option>
+          <option value="8">8月</option>
+          <option value="9">9月</option>
+          <option value="10">10月</option>
+          <option value="11">11月</option>
+          <option value="12">12月</option>
+        </select>
+      </div>
+      <table>
+
+        <thead>
+          <tr>
+            <th>日付</th>
+            <th>内容</th>
+            <th>分類</th>
+            <th>金額</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+
+        <tbody id="transactionList">
+
+        </tbody>
+
+      </table>
+
+    </section>
+
+  </main>
+
+</body>
+
+</html>

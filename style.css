@@ -1,0 +1,308 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f5f7fb;
+  font-family: sans-serif;
+  color: #333;
+}
+
+.container {
+  width: 92%;
+  max-width: 1000px;
+  margin: 40px auto 60px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 35px;
+  font-size: 32px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .06);
+}
+
+#moneyForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  margin-bottom: 0;
+}
+
+/* 金額を横幅いっぱい */
+.amount-group {
+  grid-column: 1 / -1;
+}
+
+/* 登録ボタンを横幅いっぱい */
+#moneyForm button {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: 200px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #0180ff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: .3s;
+  margin-left: 10px;
+}
+
+button:hover {
+  background: #2d9bfb;
+}
+
+.delete-btn {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #ff0000;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: .3s;
+  margin-left: 10px;
+}
+
+.delete-btn:hover {
+  background: #ff2e2e;
+}
+
+.edit-btn {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #037dff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.edit-btn:hover {
+  background: #1f88f9;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.summary h2 {
+  grid-column: 1 / -1;
+  margin-bottom: 4px;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  margin-bottom: 0;
+  background: #f8f9fb;
+  border-radius: 12px;
+}
+
+.summary-item span:first-child {
+  font-size: 14px;
+  color: #777;
+  font-weight: bold;
+}
+
+.summary-item span:last-child {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* 収入 */
+.summary-item:nth-of-type(1) {
+  border-left: 4px solid #e85d5d;
+}
+
+/* 支出 */
+.summary-item:nth-of-type(2) {
+  border-left: 4px solid #4f7cff;
+  
+}
+
+/* 収支 */
+.summary-item.summary-item:nth-of-type(3) {
+  border-left: 4px solid #4caf50;
+  
+}
+
+.balance {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+}
+
+th {
+  background: #f3f5f8;
+}
+
+tr:hover {
+  background: #fafafa;
+}
+
+/* モーダル */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+/* showが付いたら表示 */
+.modal.show {
+  display: flex;
+}
+
+/* モーダル本体 */
+.modal-content {
+  width: min(90%, 500px);
+  padding: 40px;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* タイトル */
+.modal-content h2 {
+  margin: 0 0 30px;
+  text-align: center;
+  font-size: 28px;
+}
+
+/* 入力欄 */
+.modal-content input,
+.modal-content select{
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+/* 入力欄にフォーカスしたとき */
+.modal-content input:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+/* ボタン */
+.modal-content button {
+  padding: 14px 24px;
+
+  border: none;
+  border-radius: 8px;
+
+  font-size: 16px;
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+.history-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.history-wrapper label {
+  margin-left: auto;
+  margin-bottom: 0;
+}
+
+.transaction-calendar,
+#year {
+  width: 10%;
+  margin-left: 10px;
+}
+
+/* 更新ボタン */
+#updateButton {
+  background-color: #2563eb;
+  color: #fff;
+}
+
+#updateButton:hover {
+  background-color: #0180ff;
+}
+
+/* 閉じるボタン */
+#closeModal {
+  background-color: #eee;
+  color: #333;
+  margin-right: 10px;
+}
+
+#closeModal:hover {
+  background-color: #ccc;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+
+  .container {
+    width: 95%;
+  }
+
+  table {
+    font-size: 14px;
+  }
+
+}
