@@ -1,138 +1,158 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>家計簿アプリ</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="script.js" defer></script>
 </head>
 
 <body>
 
-  <main class="container">
+<header>
+  <h1 class="header-top">家計簿アプリ</h1>
+</header>
 
-    <h1>💰 家計簿アプリ</h1>
-
-    <!-- 登録フォーム -->
-    <section class="card">
-      <h2>収支登録</h2>
-
-      <form id="moneyForm">
-
-        <div class="form-group">
-          <label for="date">日付</label>
-          <input type="date" id="date" required>
-        </div>
-
-        <div class="form-group">
-          <label for="title">内容</label>
-          <input type="text" id="title" list="titleList" placeholder="内容を入力" required>
-          <datalist id="titleList"></datalist>
-        </div>
-
-        <div class="form-group">
-          <label for="category">カテゴリー</label>
-          <select id="category">
-            <option value="食費">食費</option>
-            <option value="日用品">日用品</option>
-            <option value="交通費">交通費</option>
-            <option value="趣味">趣味</option>
-            <option value="給料">給料</option>
-            <option value="その他">その他</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="type">種類</label>
-          <select id="type">
+<!-- 登録フォーム -->
+<main class="main-wrapper">
+<section class="transaction-form">
+  <h2>収支登録</h2>
+  <form class="money-wrapper" id="moneyForm">
+      <div class="form-group">
+        <label for="date">日付</label>
+        <input class="form-content" type="date" id="date" required>
+      </div>
+      <div class="form-group">
+        <label for="title">内容</label>
+        <input class="form-content" type="text" id="title" list="titleList" placeholder="内容を入力" required>
+        <datalist id="titleList"></datalist>
+      </div>
+      <div class="form-group">
+        <label for="category">カテゴリー</label>
+        <select class="form-content" id="category">
+          <option value="食費">食費</option>
+          <option value="日用品">日用品</option>
+          <option value="交通費">交通費</option>
+          <option value="趣味">趣味</option>
+          <option value="給料">給料</option>
+          <option value="その他">その他</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="type">種類</label>
+          <select class="form-content" id="type">
             <option value="income">収入</option>
             <option value="expense">支出</option>
           </select>
-        </div>
+      </div>
+      <div class="form-group">
+        <label for="amount">金額</label>
+        <input class="form-content" type="number" id="amount" min="1" placeholder="金額" required>
+      </div>
 
-        <div class="form-group amount-group">
-          <label for="amount">金額</label>
-          <input type="number" id="amount" min="1" placeholder="金額" required>
-        </div>
-
-        <button type="submit">登録</button>
-
-      </form>
-    </section>
+      <div class="transaction-btn">
+        <button class="register-btn" type="submit">登 録</button>
+        <button class="clear-btn" type="button">クリア</button>
+      </div>
+    </form>
+  </section>
 
     <!-- 合計 -->
-     
-    <section class="card summary">
-      <h2>収支</h2>
-      <div class="summary-item">
-        <span>収入</span>
-        <span id="totalIncome">¥0</span>
+    <section class="summary">
+      <h2>収支集計</h2>
+      <div class="summary-list">
+        <div class="summary-item income">
+          <span>収入</span>
+          <span id="totalIncome">¥0</span>
+        </div>
+
+        <div class="summary-item expense">
+          <span>支出</span>
+          <span id="totalExpense">¥0</span>
+        </div>
+
+        <div class="summary-item balance">
+          <span>収支</span>
+          <span id="balance">¥0</span>
+        </div>
       </div>
 
-      <div class="summary-item">
-        <span>支出</span>
-        <span id="totalExpense">¥0</span>
-      </div>
+      <div class="chart-container">
+        <div class="chart-box">
+          <h2>収支</h2>
+          <canvas class="expense-chart" id="expenseChart"></canvas>
+        </div>
 
-      <div class="summary-item balance">
-        <span>収支</span>
-        <span id="balance">¥0</span>
+        <div class="chart-box">
+          <h2>支出割合</h2>
+          <canvas class="category-chart" id="categoryChart"></canvas>
+        </div>
       </div>
-
     </section>
+
+  
+</main>
+
 <!-- モーダル -->
   <div id="editModal" class="modal">
-  <div class="modal-content">
-    <h2>編集</h2>
+    <div class="modal-wrapper">
+      <h2>編集</h2>
 
-    <label for="editDate">日付</label>
-    <input type="date" id="editDate">
-    <label for="editTitle">内容</label>
-    <input type="text" id="editTitle" placeholder="内容を入力" required>
-    <label for="editCategory">カテゴリー</label>
-    <select id="editCategory">
-      <option value="食費">食費</option>
-      <option value="日用品">日用品</option>
-      <option value="交通費">交通費</option>
-      <option value="趣味">趣味</option>
-      <option value="給料">給料</option>
-      <option value="その他">その他</option>
-    </select>
-    <label for="editAmount">金額</label>
-    <input type="number" id="editAmount" placeholder="金額を入力" required>
+      <label for="editDate">日付</label>
+      <input class="modal-content" type="date" id="editDate">
+      <label for="editTitle">内容</label>
+      <input class="modal-content" type="text" id="editTitle" placeholder="内容を入力" required>
+      <label for="editCategory">カテゴリー</label>
+      <select class="modal-content" id="editCategory">
+        <option value="食費">食費</option>
+        <option value="日用品">日用品</option>
+        <option value="交通費">交通費</option>
+        <option value="趣味">趣味</option>
+        <option value="給料">給料</option>
+        <option value="その他">その他</option>
+      </select>
+      <label for="editAmount">金額</label>
+      <input class="modal-content" type="number" id="editAmount" placeholder="金額を入力" required>
 
     <div class="modal-buttons">
-      <button id="closeModal">閉じる</button>
       <button id="updateButton">更新</button>
+      <button id="closeModal">閉じる</button>
     </div>
   </div>
 </div>
     <!-- 一覧 -->
-    <section class="card">
-      <div class="history-wrapper">
-        <h2>収支履歴</h2>
-        <label for="year">年月検索</label>
-        <input type="text" id="year" placeholder="年を入力">
-        <select class="transaction-calendar">
-          <option value="all">すべて</option>
-          <option value="1">1月</option>
-          <option value="2">2月</option>
-          <option value="3">3月</option>
-          <option value="4">4月</option>
-          <option value="5">5月</option>
-          <option value="6">6月</option>
-          <option value="7">7月</option>
-          <option value="8">8月</option>
-          <option value="9">9月</option>
-          <option value="10">10月</option>
-          <option value="11">11月</option>
-          <option value="12">12月</option>
-        </select>
-      </div>
-      <table>
+  <div class="history-wrapper">
+    <section class="transaction-history">
+      <h2>収支履歴</h2>
+      <label for="year">年月検索</label>
+      <select class="year" id="year">
+        <option value="all">すべて</option>
+        <option value="2026">2026年</option>
+        <option value="2025">2025年</option>
+        <option value="2024">2024年</option>
+      </select>
 
+      <select class="transaction-calendar">
+        <option value="all">すべて</option>
+        <option value="1">1月</option>
+        <option value="2">2月</option>
+        <option value="3">3月</option>
+        <option value="4">4月</option>
+        <option value="5">5月</option>
+        <option value="6">6月</option>
+        <option value="7">7月</option>
+        <option value="8">8月</option>
+        <option value="9">9月</option>
+        <option value="10">10月</option>
+        <option value="11">11月</option>
+        <option value="12">12月</option>
+      </select>
+    </section>
+     
+    <div class="history-table">
+      <table>
         <thead>
           <tr>
             <th>日付</th>
@@ -148,11 +168,8 @@
         </tbody>
 
       </table>
-
-    </section>
-
-  </main>
-
+    </div>
+  </div>
 </body>
 
 </html>

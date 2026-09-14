@@ -5,190 +5,154 @@
 }
 
 body {
-  background: #f5f7fb;
-  font-family: sans-serif;
+  background: #f6f6f7;
   color: #333;
+  font-family: sans-serif;
 }
 
-.container {
-  width: 92%;
-  max-width: 1000px;
-  margin: 40px auto 60px;
+/* ヘッダー */
+.header-top {
+  background-color: #62a8fc;
+  padding: 10px;
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 35px;
-  font-size: 32px;
+.main-wrapper {
+  background-color: #f5f7fb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  margin: 10px;
+  padding: 20px 20px;
 }
 
-.card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 28px;
-  margin-bottom: 24px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, .06);
+/* 登録フォーム */
+.transaction-form {
+  height: 100%;
+  background-color: #f5f7fb;
+  border-radius: 5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 30%;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-#moneyForm {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+.transaction-form h2 {
+  background-color: #c4efff;
+  padding: 5px 20px;
+  margin-bottom: 10px;
+  border-radius: 5px;
 }
 
 .form-group {
-  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
 }
 
-/* 金額を横幅いっぱい */
-.amount-group {
-  grid-column: 1 / -1;
-}
-
-/* 登録ボタンを横幅いっぱい */
-#moneyForm button {
-  grid-column: 1 / -1;
-  justify-self: center;
-  width: 200px;
-}
-
-label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-}
-
-input,
-select {
-  width: 100%;
+.form-content {
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  width: 300px;
+}
+
+.transaction-btn {
+  display: flex;
+  flex-direction: column;
+}
+
+.register-btn {
   font-size: 16px;
-}
-
-button {
-  padding: 10px;
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #02f28a;
+  border-radius: 5px;
   border: none;
-  border-radius: 8px;
-  background: #0180ff;
-  color: white;
-  font-size: 16px;
+  width: 300px;
   cursor: pointer;
-  transition: .3s;
-  margin-left: 10px;
+  transition: 0.3s;
 }
 
-button:hover {
-  background: #2d9bfb;
+.register-btn:hover {
+  background-color: #00b868;
+  transform: transition ease 0.3s;
 }
 
-.delete-btn {
-  padding: 10px;
+.clear-btn {
+  font-size: 16px;
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #ccc;
+  border-radius: 5px;
   border: none;
-  border-radius: 8px;
-  background: #ff0000;
-  color: white;
-  font-size: 16px;
+  width: 300px;
   cursor: pointer;
-  transition: .3s;
-  margin-left: 10px;
+  transition: 0.3s;
 }
 
-.delete-btn:hover {
-  background: #ff2e2e;
+.clear-btn:hover {
+  background-color: #b5b8b7;
+  transform: transition ease 0.3s;
 }
 
-.edit-btn {
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  background: #037dff;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: .3s;
-}
 
-.edit-btn:hover {
-  background: #1f88f9;
-}
+/* 合計 */
 
 .summary {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  width: 70%;
+  padding: 20px;
 }
 
 .summary h2 {
-  grid-column: 1 / -1;
-  margin-bottom: 4px;
+  border-bottom: 1px solid #62a8fc;
+  margin-bottom: 30px;
+}
+
+.summary-list {
+  display: flex;
+  gap: 20px;
 }
 
 .summary-item {
+  flex: 1;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  border-left: 6px solid;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 20px;
-  margin-bottom: 0;
-  background: #f8f9fb;
-  border-radius: 12px;
-}
-
-.summary-item span:first-child {
-  font-size: 14px;
-  color: #777;
-  font-weight: bold;
-}
-
-.summary-item span:last-child {
-  font-size: 24px;
-  font-weight: bold;
 }
 
 /* 収入 */
-.summary-item:nth-of-type(1) {
-  border-left: 4px solid #e85d5d;
+.income {
+  border-left-color: #4caf50;
 }
 
 /* 支出 */
-.summary-item:nth-of-type(2) {
-  border-left: 4px solid #4f7cff;
-  
+.expense {
+  border-left-color: #f44336;
 }
 
 /* 収支 */
-.summary-item.summary-item:nth-of-type(3) {
-  border-left: 4px solid #4caf50;
-  
-}
-
 .balance {
-  font-size: 20px;
-  font-weight: bold;
+  border-left-color: #2196f3;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
+/* グラフ */
+.chart-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 40px;
 }
 
-th,
-td {
-  padding: 14px;
-  border-bottom: 1px solid #eee;
-  text-align: center;
-}
-
-th {
-  background: #f3f5f8;
-}
-
-tr:hover {
-  background: #fafafa;
+.chart-box {
+  width: 350px;
+  height: 220px;
 }
 
 /* モーダル */
+
 .modal {
   display: none;
   position: fixed;
@@ -199,110 +163,136 @@ tr:hover {
   align-items: center;
 }
 
-/* showが付いたら表示 */
 .modal.show {
   display: flex;
 }
 
-/* モーダル本体 */
-.modal-content {
-  width: min(90%, 500px);
-  padding: 40px;
-  background-color: #fff;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
-
-/* タイトル */
-.modal-content h2 {
-  margin: 0 0 30px;
-  text-align: center;
-  font-size: 28px;
-}
-
-/* 入力欄 */
-.modal-content input,
-.modal-content select{
-  width: 100%;
-  box-sizing: border-box;
-  padding: 14px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 16px;
-}
-
-/* 入力欄にフォーカスしたとき */
-.modal-content input:focus {
-  outline: none;
-  border-color: #2563eb;
-}
-
-/* ボタン */
-.modal-content button {
-  padding: 14px 24px;
-
-  border: none;
-  border-radius: 8px;
-
-  font-size: 16px;
-  font-weight: bold;
-
-  cursor: pointer;
-}
-
-.history-wrapper {
+.modal-wrapper {
+  border-radius: 5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #f6f6f7;
+  width: 30%;
+  padding: 20px 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
 }
 
-.history-wrapper label {
-  margin-left: auto;
-  margin-bottom: 0;
+.modal-wrapper label {
+  width: 300px;
+  text-align: left;
+  margin-top: 10px;
 }
 
-.transaction-calendar,
-#year {
-  width: 10%;
-  margin-left: 10px;
-}
-
-/* 更新ボタン */
-#updateButton {
-  background-color: #2563eb;
-  color: #fff;
-}
-
-#updateButton:hover {
-  background-color: #0180ff;
-}
-
-/* 閉じるボタン */
-#closeModal {
-  background-color: #eee;
-  color: #333;
-  margin-right: 10px;
-}
-
-#closeModal:hover {
-  background-color: #ccc;
+.modal-content {
+  padding: 10px;
+  width: 300px;
 }
 
 .modal-buttons {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  margin-top: 20px;
   gap: 10px;
 }
 
-@media (max-width: 768px) {
+.modal-buttons button {
+  padding: 10px;
+  width: 300px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
 
-  .container {
-    width: 95%;
-  }
+.modal-buttons button:nth-child(1) {
+  background-color: #2196f3;
+  transition: 0.3s;
+}
 
-  table {
-    font-size: 14px;
-  }
+.modal-buttons button:nth-child(1):hover {
+  background-color: #65b4f5;
+  transform: transition ease
+}
 
+.modal-buttons button:nth-child(2) {
+  background-color: #ccc;
+  transition: 0.3s;
+}
+
+.modal-buttons button:nth-child(2):hover {
+  background-color: #8a8a8a;
+  transform: transition ease
+}
+
+/* 検索履歴 */
+
+.history-wrapper {
+  margin: 0 10px;
+}
+
+.transaction-history {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.transaction-calendar,
+.year {
+  padding: 10px;
+}
+
+/* 登録履歴テーブル */
+.history-table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.history-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.history-table th,
+.history-table td {
+  width: 20%;
+  padding: 14px 16px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.history-table th {
+  background: #f5f7fb;
+}
+
+.delete-btn,
+.edit-btn {
+  padding: 5px 15px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background-color: #ff6863;
+  color: #fff;
+  transition: 0.3s;
+}
+
+.delete-btn:hover {
+  background-color: #fd3131;
+  transform: transition ease 0.3s;
+}
+
+.edit-btn {
+  background-color: #5378ff;
+  color: #fff;
+  transition: 0.3s;
+}
+
+.edit-btn:hover {
+  background-color: #2718fa;
+  transform: transition ease 0.3s;
 }

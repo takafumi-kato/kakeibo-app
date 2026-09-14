@@ -50,6 +50,7 @@ function init() {
   renderTransactions();
   calculateTotals();
   renderTitleList();
+  renderYearList();
 
   elements.form.addEventListener('submit', handleSubmit);
 
@@ -87,6 +88,8 @@ function handleSubmit(event) {
   renderTransactions();
   calculateTotals();
   renderTitleList();
+  renderYearList();
+  renderExpenseChart();
 
   elements.form.reset();
 }
@@ -166,6 +169,7 @@ function deleteEvent(deleteButton, id) {
     renderTransactions();
     calculateTotals();
     renderTitleList();
+    renderYearList();
   });
 }
 
@@ -307,29 +311,65 @@ function yearMonthSearch() {
   const year = document.getElementById('year');
   const month = document.querySelector('.transaction-calendar');
 
-  function search() {
-    const searchYear = year.value;
-    const searchMonth = month.value;
+  const searchYear = year.value;
+  const searchMonth = month.value;
 
-    const result = transactions.filter(transaction => {
-      const [transactionYear, transactionMonth] = transaction.date.split('-');
+  const result = transactions.filter(transaction => {
+    const [transactionYear, transactionMonth] =
+      transaction.date.split('-');
 
-      if (searchMonth === 'all') {
+    // 年・月どちらも「すべて」
+    if (searchYear === 'all' && searchMonth === 'all') {
+      return true;
+    }
+
+    // 年が「すべて」 → 月だけ検索
+    if (searchYear === 'all') {
+      return Number(transactionMonth) === Number(searchMonth);
+    }
+
+    // 月が「すべて」 → 年だけ検索
+    if (searchMonth === 'all') {
       return transactionYear === searchYear;
     }
 
+    // 年・月の両方を指定
     return transactionYear === searchYear &&
       Number(transactionMonth) === Number(searchMonth);
   });
 
   renderTransactions(result);
-};
-
-  year.addEventListener('input', search);
-  month.addEventListener('change', search);
-
+  renderExpenseChart(result);
+  renderCategoryChart(result);
 }
 
+function renderYearList() {
+
+  const year = document.getElementById('year');
+
+  // 「すべて」以外を一度削除
+  year.innerHTML = '<option value="all">すべて</option>';
+
+  const years = [
+    ...new Set(
+      transactions.map(transaction => {
+        return transaction.date.split('-')[0];
+      })
+    )
+  ];
+
+  years.sort((a, b) => b - a);
+
+  years.forEach(yearValue => {
+
+    const option = document.createElement('option');
+
+    option.value = yearValue;
+    option.textContent = `${yearValue}年`;
+
+    year.appendChild(option);
+  });
+}
 
 // ==============================
 // localStorage保存
@@ -350,4 +390,143 @@ function saveTransactions() {
 // ==============================
 
 init();
+
+let expenseChart = null;
+
+function renderExpenseChart(data = transactions) {
+
+  const ctx = document.getElementById('expenseChart');
+
+  const expenses = data.filter(transaction => {
+    return transaction.type === 'expense';
+  });
+
+  const incomes = data.filter(transaction => {
+    return transaction.type === 'income'
+  });
+
+  const expenseCategoryTotals = {};
+  const incomeCategoryTotals = {};
+
+  expenses.forEach(transaction => {
+    const category = transaction.category;
+    const amount = Number(transaction.amount);
+
+    if (expenseCategoryTotals[category]) {
+      expenseCategoryTotals[category] += amount;
+    } else {
+      expenseCategoryTotals[category] = amount;
+    }
+  });
+
+  incomes.forEach(transaction => {
+  const category = transaction.category;
+  const amount = Number(transaction.amount);
+
+  if (incomeCategoryTotals[category]) {
+    incomeCategoryTotals[category] += amount;
+  } else {
+    incomeCategoryTotals[category] = amount;
+  }
+});
+
+  const labels = [
+    ...new Set([
+      ...Object.keys(expenseCategoryTotals),
+      ...Object.keys(incomeCategoryTotals)
+  ])]
+
+  const expenseData = labels.map(category => {
+    return expenseCategoryTotals[category] || 0;
+  });
+
+  const incomeData = labels.map(category => {
+    return incomeCategoryTotals[category] || 0;
+  });
+
+  if (expenseChart) {
+    expenseChart.destroy();
+  }
+
+  expenseChart = new Chart(ctx, {
+    type: 'bar',
+
+    data: {
+      labels: labels,
+
+      datasets: [
+        {
+          label: '支出額',
+          data: expenseData
+        },
+
+        {
+          label: '収入額',
+          data: incomeData
+        }
+      ]
+    },
+
+    options: {
+    maintainAspectRatio: false
+  }
+  });
+}
+
+let categoryChart = null;
+
+function renderCategoryChart(data = transactions) {
+
+  const ctx = document.getElementById('categoryChart');
+
+  const expenses = data.filter(transaction => {
+    return transaction.type === 'expense';
+  });
+
+  const categoryTotals = {};
+
+  expenses.forEach(transaction => {
+
+    const category = transaction.category;
+    const amount = Number(transaction.amount);
+
+    if (categoryTotals[category]) {
+      categoryTotals[category] += amount;
+    } else {
+      categoryTotals[category] = amount;
+    }
+
+  });
+
+  const labels = Object.keys(categoryTotals);
+
+  const values = Object.values(categoryTotals);
+
+  if (categoryChart) {
+    categoryChart.destroy();
+  }
+
+  categoryChart = new Chart(ctx, {
+
+    type: 'pie',
+
+    data: {
+      labels: labels,
+
+      datasets: [
+        {
+          data: values
+        }
+      ]
+    },
+    
+    options: {
+    maintainAspectRatio: false
+  }
+  });
+}
+
+renderExpenseChart();
+renderCategoryChart();
+
 
